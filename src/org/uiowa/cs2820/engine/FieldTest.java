@@ -22,10 +22,10 @@ public class FieldTest {
 	  Field F1 = new Field("1",new Integer(45));
 	  Field F2 = new Field("part","bolt");
 	  Field F3 = new Field("part","bolt");
-	  I.add(F1);
-	  I.add(F2);
+	  I.addField(F1);
+	  I.addField(F2);
 	  I = new Indexer(D,"def");
-	  I.add(F3);
+	  I.addField(F3);
 	  String[] S = F.findEquals(F3);
 	  assertEquals(S.length,2);
 	  assertEquals(S[0],"abc");
@@ -41,6 +41,6 @@ public class FieldTest {
 	    "be allowed as part of a lookup value" + 
 		"because there is a size limit in the" +
 	    "code for creating a Field");
-		I.add(F); 
+		I.addField(F); 
 	  }
     }

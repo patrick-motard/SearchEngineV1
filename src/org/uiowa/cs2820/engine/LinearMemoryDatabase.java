@@ -3,8 +3,6 @@ package org.uiowa.cs2820.engine;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import javax.xml.bind.DatatypeConverter;
-
 public class LinearMemoryDatabase implements Database {
   private ArrayList<Node> Memory = null;
   

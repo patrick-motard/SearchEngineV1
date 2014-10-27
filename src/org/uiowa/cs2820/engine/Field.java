@@ -10,9 +10,9 @@ import java.io.Serializable;
 
 public class Field implements Serializable {
 
-	public static final int MAXSIZE = 128;
+	public static final int MAXSIZE = 256;
 	private String FieldName; 
-	private byte[] FieldValue;
+	private Object FieldValue;
 	
 	public static byte[] convert(Object O) {
 	  // private method converts objects into byte array
@@ -28,10 +28,21 @@ public class Field implements Serializable {
 	  return M.toByteArray();
 	  }
 	
+	public static Object revert(byte[] seq) {
+	  Object O = null;  // default value
+	  try {
+		ByteArrayInputStream M = new ByteArrayInputStream(seq);
+		ObjectInputStream N = new ObjectInputStream(M);
+		O = N.readObject();
+		}
+	  catch (Exception e) { };
+		return O;
+	  }
+	
 	// constructor for Fields with String
 	Field(String FieldName, Object Value) throws IllegalArgumentException {
 	  this.FieldName = FieldName;
-	  this.FieldValue = convert(Value);
+	  this.FieldValue = Value;
 	  if (toBytes().length >= Field.MAXSIZE)
 	     throw new IllegalArgumentException("Field Size exceeded: " + FieldName);
 	  return;
@@ -40,20 +51,15 @@ public class Field implements Serializable {
 	  return FieldName;
 	  }
 	public Object getFieldValue() {
-	  Object O = null;  // default value
-	  try {
-	    ByteArrayInputStream M = new ByteArrayInputStream(FieldValue);
-	    ObjectInputStream N = new ObjectInputStream(M);
-	    O = N.readObject();
-	    }
-	  catch (Exception e) { };
-	  return O;
+	  return FieldValue;
 	  }
 	public byte[] toBytes() {
-	  byte[] ByteFieldName = FieldName.getBytes();
-	  byte[] R = new byte[ByteFieldName.length + FieldValue.length];
-	  System.arraycopy(ByteFieldName,0,R,0,ByteFieldName.length);
-	  System.arraycopy(FieldValue,0,R,ByteFieldName.length,FieldValue.length);
-	  return R;
+	  byte[] wholeField = convert(this);
+	  return wholeField;
+	  //byte[] ByteFieldName = FieldName.getBytes();
+	  //byte[] R = new byte[ByteFieldName.length + FieldValue.length];
+	  //System.arraycopy(ByteFieldName,0,R,0,ByteFieldName.length);
+	  //System.arraycopy(FieldValue,0,R,ByteFieldName.length,FieldValue.length);
+	  //return R;
 	  }
 	}

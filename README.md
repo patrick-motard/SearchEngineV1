@@ -1,7 +1,6 @@
 Search Engine Project Version 1
 -------------------------------
 
-
 This is a somewhat fancy version of SearchEngine that 
 does what's needed for the first iteration, but also plans
 a bit for the future.
@@ -11,10 +10,9 @@ Project Files
 
 .project
 
-> This is a normally hidden file, but essential if you
-> clone/download the project and would like to import into
-> Eclipse. Just File -> Import -> General -> Existing Java   
-> Project 
+> This is a normally hidden file, but essential if you clone or
+> download the project and would like to import into Eclipse. 
+> Just File -> Import -> General -> Existing Java Project 
 
 > Notice please that all java files are in the package 
 > org.uiowa.cs2820.engine
@@ -26,23 +24,21 @@ Field.java
 > a field name (like "Color", "Part", "Title", etc) and an
 > associated value.  Since a value could be a string, a number,
 > or something more complex like an array or object, we need
-> a universal way for the value to be anything. This is done by
-> converting the data into a byte array:  standard Java library  
-> methods convert anything into a byte array. i
+> a universal way for the value to be anything. Hence, the value
+> just has type Object (which could be String, Integer, even a
+> Map).  
 
-> The Field constructor converts the type of the value into a
-> byte array (class method "convert" does this). Two "getter" 
+> Later (beyond Version 1) we will need to save things into 
+> a file, including the values can can be objects. To enable    
+> this future design, Field has two class methods "convert" 
+> and "revert", which use standard Java library methods to convert 
+> anything into a byte array. The "toBytes" method returns 
+> convert(this), that is, the Field object itself as an array 
+> of bytes.
+
+> The Field constructor saves name and value; Two getter 
 > methods return the field name and field value for a Field 
 > object.            
-
-> The advantage of using a byte array for a field value is that
-> it can be any kind of object.  Similarly, we might consider
-> converting a Field object itself into a byte array:  this would
-> be useful in some future scenarious if we plan to save Field 
-> objects to a file or something like that.  The "toBytes" method
-> returns a byte array representing both field name and field value, 
-> which is used by Indexers and FieldSearch instances for some 
-> lookups.
 
 Node.java
 
@@ -102,3 +98,14 @@ LinearMemoryDatabase.java
 FieldTest.java
 
 > The integration test for all classes above. 
+
+Limitation
+----------
+
+A major limitation of this design is that the entire Field 
+object itself is a key for lookup into the Database. It's done
+by converting Field into a byte array (the "toBytes" method 
+does this).  In future, we will have to think how to do things
+differently, so that users can query by Field name, or by 
+Field value, or by a range: show me anything with a field name
+of "quantity" and an associated value in the range 100-200.

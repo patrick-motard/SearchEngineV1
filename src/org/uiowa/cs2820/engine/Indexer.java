@@ -11,7 +11,7 @@ public class Indexer {
 	this.id = id;
     }
   
-  public void add(Field f) {
+  public void addField(Field f) {
 	// Field has (name,value) which is used as key for
 	// the database operations
 	byte[] key = f.toBytes();

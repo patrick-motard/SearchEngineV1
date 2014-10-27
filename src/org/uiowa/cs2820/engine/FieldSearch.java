@@ -12,7 +12,8 @@ public class FieldSearch {
 	byte[] key = f.toBytes();
 	Node p = D.fetch(key);
 	if (p == null) return new String[0];
-	String[] R = p.Identifiers.toArray(new String[p.Identifiers.size()]);
+	String[] R = new String[p.Identifiers.size()];
+	R = p.Identifiers.toArray(R);
 	return R;
     }
   }

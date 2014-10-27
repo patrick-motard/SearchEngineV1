@@ -6,7 +6,7 @@ public class Node {
   // Node is a basic unit in the database
   byte[] Key;  // Key of this node for lookup
   ArrayList<String> Identifiers;
-  int size;
+  int size;    // not yet implemented
   
   Node(byte[] f, String id) {
 	this.Key = f;

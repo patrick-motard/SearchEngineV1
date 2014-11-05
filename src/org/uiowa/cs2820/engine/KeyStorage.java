@@ -1,6 +1,11 @@
+// Chris Grycki
+// Team 7
 package org.uiowa.cs2820.engine;
 
+// KeyStorage is utilized by LinearFileDatabase to store and retrieve 
+// nodes.
 public class KeyStorage {
+	
 	// get - This is used exclusively by this class
 	// 		 to retrieve a node at the location specified
 	// 		 by areaNum
@@ -15,13 +20,13 @@ public class KeyStorage {
 		// Insert the given node at areaNum
 		
 	}
-	// add - User calls this method to add the
+	// add - LinearFileDatabase calls this method to add the
 	//		 the given node into storage
 	public void add(Node givenNode) {
 		// Use allocate to find a place to put
 		// the given node
 	}
-	// del - User calls this method to remove the
+	// del - LinearFileDatabase calls this method to remove the
 	//		 given node from storage
 	public void del(Node givenNode) {
 		// Find the given node and use

@@ -5,6 +5,8 @@ import java.util.Arrays;
 
 public class LinearMemoryDatabase implements Database {
   private ArrayList<Node> Memory = null;
+  protected Allocate allocator = new Allocate();
+  protected KeyStorage keyStore = new KeyStorage(this);
   
   LinearMemoryDatabase() {
 	this.Memory = new ArrayList<Node>();  // empty list

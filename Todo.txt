@@ -10,6 +10,6 @@ Node class is not yet decided among the group members
 
 Patrick Motard		- DiskSpace
 Christopher Grycki	- KeyStorage
-Tao Zeyi			- Allocate & CheckPoint
+Tao Zeyi		- Allocate & CheckPoint
 Joon Young Kwon		- ValueStorage
 

@@ -1,17 +1,27 @@
+
+
 package org.uiowa.cs2820.engine;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.*;
 
 public class ValueStorage {
 	
-	// load - read entire ValueLinked list
-	// convert into Arraylist of Identifiers
-	public static ArrayList<String> load() {
-		return null;
+	public static int head;
+	public static int size;
+	public sattic long tail;
+	public String identifier;
+	
+	public static ArrayList<String> load(long front) throws IOException{
+		ArrayList<String> Identifiers = new ArrayList<String>();
+		byte[] fileName = DiskSpace.read(front);
+		
+		
+		return Identifiers;
+	
 	}
-
-	// store - write entire
-	// Arraylist of Identifiers
+	
+	
 	public static void store (ArrayList<String> list){
 		
 	}

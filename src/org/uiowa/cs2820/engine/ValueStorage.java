@@ -7,7 +7,7 @@ public class ValueStorage {
 	// load - read entire ValueLinked list
 	// convert into Arraylist of Identifiers
 	public static ArrayList<String> load() {
-	
+		return null;
 	}
 
 	// store - write entire

@@ -11,57 +11,61 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 
-public class CheckPoint{
-	
+public class CheckPoint {
+
 	private String fileName;
-	//constructor of checkpoint 
-	public CheckPoint(String fileName){
+
+	// constructor of checkpoint
+	public CheckPoint(String fileName) {
 		this.fileName = fileName;
 	}
-	//check the file existence
-	public boolean isExists(){
-		
+
+	// check the file existence
+	public boolean isExists() {
+
 		File file = new File(fileName);
-		if(file.exists()){
+		if (file.exists()) {
 			return true;
-		}
-		else return false;
+		} else
+			return false;
 	}
-    //can take a big Java Object convert to byte array and write into files 
-	public void save(Object obj){
+
+	// can take a big Java Object convert to byte array and write into files
+	public void save(Object obj) {
 		try {
 			ByteArrayOutputStream byteout = new ByteArrayOutputStream();
 			ObjectOutput objout = new ObjectOutputStream(byteout);
 			objout.writeObject(obj);
-			
+
 			File file = new File(fileName);
-		    FileOutputStream outfile = new FileOutputStream(file);
-		    outfile.write(byteout.toByteArray());    
-		} 
-		catch(FileNotFoundException e){
+			FileOutputStream outfile = new FileOutputStream(file);
+			outfile.write(byteout.toByteArray());
+		} catch (FileNotFoundException e) {
 			System.out.println("File not found" + e);
-		}
-		catch(IOException ioe){
+		} catch (IOException ioe) {
 			System.out.println("Exception while writing file " + ioe);
 		}
 	}
-    //read file, convert bytes back into original object
-	public Object restore() {	
-		Object obj = new Object();	
+
+	// read file, convert bytes back into original object
+	public Object restore() {
+		Object obj = null;
 		try {
 			File file = new File(fileName);
 			FileInputStream infile = new FileInputStream(file);
-			byte fileContent[] = new byte[(int)file.length()];
+
+			byte fileContent[] = new byte[(int) file.length()];
 			ObjectInput objout = new ObjectInputStream(infile);
+
 			objout.read(fileContent);
-			obj=objout.readObject();
-			
+			obj = objout.readObject();
+
 		} catch (IOException ioe) {
 			System.out.println("Exception while writing file " + ioe);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-		} 
-		
+		}
+
 		return obj;
 	}
 }

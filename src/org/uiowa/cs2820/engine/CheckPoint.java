@@ -46,7 +46,6 @@ public class CheckPoint {
 			System.out.println("Exception while writing file " + ioe);
 		}
 	}
-
 	// read file, convert bytes back into original object
 	public Object restore() {
 		Object obj = null;
@@ -65,7 +64,6 @@ public class CheckPoint {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-
 		return obj;
 	}
 }

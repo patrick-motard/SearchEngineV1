@@ -48,6 +48,7 @@ public class Allocate {
 		BitSet bs = (BitSet) cp.restore();
 		return bs.size() - bs.cardinality();
 	}
+	//supporting method 
 	public int startingPoint(){
 		BitSet bs = (BitSet) cp.restore();
 		return bs.nextClearBit(0);

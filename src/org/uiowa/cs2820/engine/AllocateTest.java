@@ -35,6 +35,7 @@ public class AllocateTest {
 		assertEquals(al.startingPoint(),1);
 		//we now have 56 space left, then now we need more space says 58>56
 		al.allocate(58);
+		//automatically generate new BitSet with size 64 and now it should be 64-2=62
 		assertEquals(al.size(),62);
 	}
 

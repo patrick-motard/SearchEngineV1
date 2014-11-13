@@ -18,9 +18,11 @@ public class CheckpointTest {
 	//main test
 	@Test
 	public void saveTest(){
+		//
 		CheckPoint cp = new CheckPoint("test1.txt");
 		cp.save("1234");
 		assertEquals(cp.restore(),"1234");
+		//
 		CheckPoint cp1 = new CheckPoint("test2.txt");
 		String s="abcdefg";
 		cp1.save(s);

@@ -8,12 +8,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class CheckpointTest {
+	//delete the file created before using same name so that keeps the
+	//unit test independently
 	@Before
 	public void deletion(){
 		File file = new File("test1.txt");
 		file.delete();
 	}
-	
+	//main test
 	@Test
 	public void saveTest(){
 		CheckPoint cp = new CheckPoint("test1.txt");

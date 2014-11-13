@@ -14,7 +14,7 @@ public class ValueStorage {
 	
 	public static ArrayList<String> load(long front) throws IOException{
 		ArrayList<String> Identifiers = new ArrayList<String>();
-		byte[] fileName = DiskSpace.read(front);
+		byte[] fileName = DiskSpace.readArea(front);
 		
 		
 		return Identifiers;

@@ -9,7 +9,7 @@ public class ValueStorage {
 	
 	public static int head;
 	public static int size;
-	public sattic long tail;
+	public static long tail;
 	public String identifier;
 	
 	public static ArrayList<String> load(long front) throws IOException{

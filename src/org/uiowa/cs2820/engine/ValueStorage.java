@@ -15,12 +15,35 @@ public class ValueStorage {
 		
 	}
 	
-	public static ArrayList<String> load(long front) throws IOException{
-		ArrayList<String> Identifiers = new ArrayList<String>();
-		byte[] filenae = DiskSpace.readArea(front);
-	
+	private LinkeListObject readObject(int front){
 		
-		return Identifiers;
+		int size;
+		LinkedListObject returnObject = null;
+		byte[] allBytes = disk.readArea(front);
+		byte[] sizeBytes = Arrays.copyOfRange(allBytes, 0, 2);
+		size = ((sizeBytes[0] & 0xff) << 8) + (sizeBytes[1] & 0xff);
+		
+		return returnObject;
+		
+	}
+	
+	
+	public static ArrayList<String> load(int front) throws IOException{
+		ArrayList<String> Identifiers = new ArrayList<String>();
+		//byte[] filename = DiskSpace.readArea(front);
+		
+		boolean nextObject = true;
+		ArrayList<LinkedListObject> objectList = new ArrayList<LinkedListObject>();
+		while (nextObject){
+			LinkedListObject myObject = readObject (front);
+			objectlist.add(myObject);
+			if(myObject.next == -1){
+				nextObject = false;
+			}
+			else {
+				front = myObject.next;
+			}
+		}
 	
 	}
 	
@@ -33,11 +56,11 @@ public class ValueStorage {
 		for (String id:list){
 			int mySpace = memorySpaces.get(0);
 			if (memeorySpaces.isEmpty() == false){
-				int nextSpace = memeorySpaces.get(0);
+				nextSpace = memeorySpaces.get(0);
 			
 			}
 			else{
-				int nextSpace = -1; // -1 = end of the list
+				nextSpace = -1; // -1 = end of the list
 			}
 			LinkedListObject idListObject = new LinkedListObject(id, )
 		}

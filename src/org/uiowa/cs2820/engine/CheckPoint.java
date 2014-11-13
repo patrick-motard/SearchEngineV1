@@ -18,6 +18,7 @@ public class CheckPoint{
 	public CheckPoint(String fileName){
 		this.fileName = fileName;
 	}
+	//check the file existence
 	public boolean isExists(){
 		
 		File file = new File(fileName);
@@ -45,8 +46,7 @@ public class CheckPoint{
 		}
 	}
     //read file, convert bytes back into original object
-	
-	public Object restore(String fileName) {	
+	public Object restore() {	
 		Object obj = new Object();	
 		try {
 			File file = new File(fileName);

@@ -18,19 +18,20 @@ public class Allocate {
     //method allocate will take a length(integer) from keyStorage or valueStorage
 	//as parameter and return an ArrayList of integer of valid position to save data
 	
-	public ArrayList<Integer> allocate(int size, String filename) 
+	public ArrayList<Integer> allocate(int size) 
 	{
 		ArrayList<Integer> position = new ArrayList<Integer>();
 		BitSet bs = null;
 		if (cp.isExists())
 		{
 			
-			bs = (BitSet) cp.restore(filename);
+			bs = (BitSet) cp.restore();
 		} 
 		else
 		{
 			
 			bs = new BitSet(size);
+			
 		}
 		int init = 0;
 		while (position.size() < size)
@@ -45,9 +46,9 @@ public class Allocate {
 	}
     //
 	
-	public void free(ArrayList<Integer> position, String filename) 
+	public void free(ArrayList<Integer> position) 
 	{
-		BitSet bs = (BitSet) cp.restore(filename);
+		BitSet bs = (BitSet) cp.restore();
  
 		for (Integer i : position)
 			bs.clear(i);

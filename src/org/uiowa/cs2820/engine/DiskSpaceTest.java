@@ -7,10 +7,13 @@ import org.junit.Test;
 
 
 public class DiskSpaceTest {
+	DiskSpace disk = new DiskSpace("newfile.txt");
+	
+	byte[] test = new byte[1024];
 	@Test
 	public void TestInit(){
 		try {
-			DiskSpace.writeArea("atest", 50);
+			disk.writeArea(1,test);
 		} catch (IOException exception) {
 			System.out.println("test init failed");
 			exception.printStackTrace();
@@ -23,23 +26,24 @@ public class DiskSpaceTest {
 			
 	@Test
 	public void TestReadWrite() {
-		byte[] test = null;
+		byte[] expected = new byte[1024];
 		try {
-			DiskSpace.writeArea("tester", 0);
+			DiskSpace.writeArea(1,expected);
 		} catch (IOException exception) {
 			System.out.println("Write Error");
 			exception.printStackTrace();
 			System.out.println(exception);
 		}
 		
+		byte[] actual = new byte[1024];
 		try {
-			test = DiskSpace.readArea(0,6);
+			actual = DiskSpace.readArea(1);
 		} catch (IOException exception) {
 			System.out.println("Read Error");
 			exception.printStackTrace();
 			System.out.println(exception);
 		}
 
-		assertEquals(test.length,6);
+		assertArrayEquals(expected,actual);
 	}
 }

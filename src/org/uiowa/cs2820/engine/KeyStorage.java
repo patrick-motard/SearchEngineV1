@@ -8,21 +8,10 @@ import java.io.*;
 // nodes.
 public class KeyStorage {
 	
-	private class NodeNextPair implements Serializable {
 
-		Node node;
-		int next;
-		int areaNum;
-		NodeNextPair (Node node, int next, int areaNum) {
-			this.node = node;
-			this.next = next;
-			this.areaNum = areaNum;
-		}
-		
-	}
 	
 	LinearFileDatabase db = null;
-	DiskSpace disk = new DiskSpace("KeyStore");
+	DiskSpace disk = new DiskSpace("Keyvalue");
 	// Initializer takes a database to be used with the KeyStorage
 	// method calls
 	public KeyStorage(LinearFileDatabase db) {

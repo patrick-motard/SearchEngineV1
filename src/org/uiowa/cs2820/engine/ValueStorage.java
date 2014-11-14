@@ -24,11 +24,11 @@ public class ValueStorage {
 			LinkedListObject myObject = Utility.readObject(front,disk);
 			// myObject should be a LinkedListObject with a pointer to next LinkedListObject
 			objectList.add(myObject);
-			if (myObject.next == -1) {
+			if (myObject.getNext() == -1) {
 				nextObject = false;
 			}
 			else {
-				front = myObject.next;
+				front = myObject.getNext();
 			}
 		}
 		

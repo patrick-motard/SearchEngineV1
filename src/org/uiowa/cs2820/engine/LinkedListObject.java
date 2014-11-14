@@ -3,9 +3,9 @@ import java.io.*;
 
 @SuppressWarnings("serial")
 public class LinkedListObject implements Serializable {
-	Object obj;
-	int next;
-	int areaNum;
+	private Object obj;
+	private int next;
+	private int areaNum;
 	
 
 	LinkedListObject (Object obj, int next, int areaNum) {
@@ -20,6 +20,14 @@ public class LinkedListObject implements Serializable {
 	int getNext() {
 		return this.next;
 	}
-	
+	int getSelf() {
+		return this.areaNum;
+	}
+	void setNext(int areaNum) {
+		this.next = areaNum;
+	}
+	void setSelf(int areaNum) {
+		this.areaNum = areaNum;
+	}
 
 }

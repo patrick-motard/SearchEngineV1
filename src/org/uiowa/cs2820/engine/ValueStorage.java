@@ -18,9 +18,6 @@ public class ValueStorage {
 	public ArrayList<String> load(int front) throws IOException{
 		ArrayList<String> Identifiers = new ArrayList<String>();
 		
-		// byte[] fileName = DiskSpace.readArea(front);
-		// front = location of first identifier on disk
-		
 		boolean nextObject = true;
 		ArrayList<LinkedListObject> objectList = new ArrayList<LinkedListObject>();
 		while (nextObject) {
@@ -34,9 +31,6 @@ public class ValueStorage {
 				front = myObject.next;
 			}
 		}
-		// Use getObject and cast to a string to get strings
-		// put all strings in arraylist
-		// return arraylist
 		
 		for (LinkedListObject myLinkedListObject : objectList) {
 			String id = (String)myLinkedListObject.getObject();
@@ -49,8 +43,11 @@ public class ValueStorage {
 	public void store (ArrayList<String> list){
 		
 		// Call allocator with number of LinkedListObjects
+		
 		ArrayList<Integer> memorySpaces = this.allocator.allocate(list.size());
+		
 		ArrayList<LinkedListObject> LinkedListObjectArray = new ArrayList<LinkedListObject>();
+		
 		for (String id:list) {
 			int mySpace = memorySpaces.remove(0);
 			int nextSpace;
@@ -64,17 +61,25 @@ public class ValueStorage {
 			
 			LinkedListObject idListObject = new LinkedListObject(id,nextSpace,mySpace);
 			LinkedListObjectArray.add(idListObject);
-			
 		}
 		
 		// Serialize each LinkedListObject using Utility class
-		//byte[] bytes = Utility.convert(exampleLinkedListObject);
+		ArrayList<byte[]> ByteArray = new ArrayList<byte[]>();
+		ListIterator<LinkedListObject> listIterator = LinkedListObjectArray.listIterator();
+		int i = 0;
+		while(listIterator.hasNext()){
+			byte[] bytes = Utility.convert(listIterator.next());
+			Utility.appendSize(bytes);
+			try{
+				DiskSpace.writeArea(i++, bytes);
+				
+			}
+			catch (IOException exception){
+				System.out.println(exception);
+			}
 		
-		// After all LinkedListObjects are converted to byte arrays
-		// Use Utility.appendSize to store byte[] size inside each byte[]
-		
-		// Use diskspace writeArea method to write each byte array to disk
-		// disk.writeArea()
+		}
+
 	}
 
 }

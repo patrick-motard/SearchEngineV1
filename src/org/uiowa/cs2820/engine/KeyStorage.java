@@ -38,9 +38,9 @@ public class KeyStorage {
 	public void put(int areaNum, Node givenNode) throws IOException {
 		// Update the tail of the linked list
 		LinkedListObject tail = getLast();
-		tail.next = areaNum;
+		tail.setNext(areaNum);
 		byte[] bytes = Utility.convert(tail);
-		disk.writeArea(tail.areaNum, bytes);
+		disk.writeArea(tail.getSelf(), bytes);
 		// Insert the given node at areaNum
 		LinkedListObject nodeNext = new LinkedListObject(givenNode,-1,areaNum);
 		bytes = Utility.convert(nodeNext);
@@ -62,20 +62,20 @@ public class KeyStorage {
 	public void del(Node givenNode) throws IOException {
 		// Find the given node and use
 		// allocate to free it
-		int index = 0;
+		// int index = 0;
 		byte[] bytes = disk.readArea(0);
 		LinkedListObject nodeNext = (LinkedListObject)Utility.revert(bytes);
 		LinkedListObject prevNodeNext = nodeNext;
-		while(nodeNext.next != -1) {
+		while(nodeNext.getNext() != -1) {
 			if ( ((Node)(nodeNext.getObject())).Key == givenNode.Key) {
-				prevNodeNext.next = nodeNext.next;
-				allocator.free(new ArrayList<Integer>(nodeNext.areaNum));
+				prevNodeNext.setNext(nodeNext.getNext());
+				allocator.free(new ArrayList<Integer>(nodeNext.getSelf()));
 				bytes = Utility.convert(prevNodeNext);
-				disk.writeArea(prevNodeNext.areaNum, bytes);
+				disk.writeArea(prevNodeNext.getSelf(), bytes);
 				break;
 			}
 			prevNodeNext = nodeNext;
-			bytes = disk.readArea(nodeNext.next);
+			bytes = disk.readArea(nodeNext.getNext());
 			nodeNext = (LinkedListObject)Utility.revert(bytes);
 			
 		}
@@ -86,9 +86,9 @@ public class KeyStorage {
 		ArrayList<Node> nodeList = new ArrayList<Node>();
 		byte[] bytes = disk.readArea(0);
 		LinkedListObject nodeNext = (LinkedListObject)Utility.revert(bytes);
-		while (nodeNext.next != -1) {
+		while (nodeNext.getNext() != -1) {
 			nodeList.add((Node)nodeNext.getObject());
-			bytes = disk.readArea(nodeNext.next);
+			bytes = disk.readArea(nodeNext.getNext());
 			nodeNext = (LinkedListObject)Utility.revert(bytes);
 		}
 		
@@ -99,8 +99,8 @@ public class KeyStorage {
 	private LinkedListObject getLast() throws IOException {
 		byte[] bytes = disk.readArea(0);
 		LinkedListObject nodeNext = (LinkedListObject)Utility.revert(bytes);
-		while (nodeNext.next != -1 ) {
-			bytes = disk.readArea(nodeNext.next);
+		while (nodeNext.getNext() != -1 ) {
+			bytes = disk.readArea(nodeNext.getNext());
 			nodeNext = (LinkedListObject)Utility.revert(bytes);
 		}
 		return nodeNext;

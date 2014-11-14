@@ -14,7 +14,7 @@ public class DiskSpace {
 		file = new File(fileName);
 	}
 
-	public static void writeArea(int areaNum, byte[] b) throws IOException {
+	public void writeArea(int areaNum, byte[] b) throws IOException {
 		if (file.exists()) {
 			RandomAccessFile writefile = new RandomAccessFile(file, "rw");
 			writefile.seek(areaNum);
@@ -31,7 +31,7 @@ public class DiskSpace {
 		}
 	}
 
-	public static byte[] readArea(int areaNum) throws IOException {
+	public byte[] readArea(int areaNum) throws IOException {
 
 		RandomAccessFile readfile = new RandomAccessFile(file, "r");
 		readfile.seek(areaNum);

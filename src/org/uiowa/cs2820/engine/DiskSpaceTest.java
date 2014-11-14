@@ -28,7 +28,7 @@ public class DiskSpaceTest {
 	public void TestReadWrite() {
 		byte[] expected = new byte[1024];
 		try {
-			DiskSpace.writeArea(1,expected);
+			disk.writeArea(1,expected);
 		} catch (IOException exception) {
 			System.out.println("Write Error");
 			exception.printStackTrace();
@@ -37,7 +37,7 @@ public class DiskSpaceTest {
 		
 		byte[] actual = new byte[1024];
 		try {
-			actual = DiskSpace.readArea(1);
+			actual = disk.readArea(1);
 		} catch (IOException exception) {
 			System.out.println("Read Error");
 			exception.printStackTrace();

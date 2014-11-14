@@ -40,11 +40,13 @@ public class CheckPoint {
 			File file = new File(fileName);
 			FileOutputStream outfile = new FileOutputStream(file);
 			outfile.write(byteout.toByteArray());
+			outfile.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found" + e);
 		} catch (IOException ioe) {
 			System.out.println("Exception while writing file " + ioe);
 		}
+		
 	}
 	// read file, convert bytes back into original object
 	public Object restore() {
@@ -58,6 +60,7 @@ public class CheckPoint {
 
 			objout.read(fileContent);
 			obj = objout.readObject();
+			objout.close();
 
 		} catch (IOException ioe) {
 			System.out.println("Exception while writing file " + ioe);

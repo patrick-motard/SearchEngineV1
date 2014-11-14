@@ -8,6 +8,7 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Field implements Serializable {
 
 	public static final int MAXSIZE = 256;

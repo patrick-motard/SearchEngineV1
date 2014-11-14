@@ -64,14 +64,14 @@ public class ValueStorage {
 		}
 		
 		// Serialize each LinkedListObject using Utility class
-		ArrayList<byte[]> ByteArray = new ArrayList<byte[]>();
+		
 		ListIterator<LinkedListObject> listIterator = LinkedListObjectArray.listIterator();
 		int i = 0;
 		while(listIterator.hasNext()){
 			byte[] bytes = Utility.convert(listIterator.next());
 			Utility.appendSize(bytes);
 			try{
-				DiskSpace.writeArea(i++, bytes);
+				disk.writeArea(i++, bytes);
 				
 			}
 			catch (IOException exception){

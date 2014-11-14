@@ -9,9 +9,10 @@ import java.io.*;
 public class KeyStorage {
 	
 
-	
+	String fileName = "Keyvalue"; 
 	LinearFileDatabase db = null;
-	DiskSpace disk = new DiskSpace("Keyvalue");
+	DiskSpace disk = new DiskSpace(fileName);
+	Allocate allocator = new Allocate(fileName);
 	// Initializer takes a database to be used with the KeyStorage
 	// method calls
 	public KeyStorage(LinearFileDatabase db) {
@@ -21,7 +22,7 @@ public class KeyStorage {
 	
 	// get - This is used to retrieve a node at the location specified
 	// 		 by areaNum
-	public Node get(int areaNum) {
+	public Node get(int areaNum) throws IOException {
 		// Find the node at areaNum and return it
 		byte[] bytes = disk.readArea(areaNum);
 		Object returnObject = Utility.revert(bytes);
@@ -34,7 +35,7 @@ public class KeyStorage {
 	
 	// put - This is used exclusively by this class 
 	// 		 to add a Node into storage
-	public void put(int areaNum, Node givenNode) {
+	public void put(int areaNum, Node givenNode) throws IOException {
 		// Update the tail of the linked list
 		LinkedListObject tail = getLast();
 		tail.next = areaNum;
@@ -48,17 +49,17 @@ public class KeyStorage {
 	
 	// add - LinearFileDatabase calls this method to add the
 	//		 the given node into storage
-	public void add(Node givenNode) {
+	public void add(Node givenNode) throws IOException {
 		// Use allocate to find a place to put
 		// the given node
-		int areaNum = db.allocator.allocate(1).get(0);
+		int areaNum = allocator.allocate(1).get(0);
 		put(areaNum, givenNode);
 		
 	}
 	
 	// del - LinearFileDatabase calls this method to remove the
 	//		 given node from storage
-	public void del(Node givenNode) {
+	public void del(Node givenNode) throws IOException {
 		// Find the given node and use
 		// allocate to free it
 		int index = 0;
@@ -68,7 +69,7 @@ public class KeyStorage {
 		while(nodeNext.next != -1) {
 			if ( ((Node)(nodeNext.getObject())).Key == givenNode.Key) {
 				prevNodeNext.next = nodeNext.next;
-				db.allocator.free(new ArrayList<Integer>(nodeNext.areaNum));
+				allocator.free(new ArrayList<Integer>(nodeNext.areaNum));
 				bytes = Utility.convert(prevNodeNext);
 				disk.writeArea(prevNodeNext.areaNum, bytes);
 				break;
@@ -81,7 +82,7 @@ public class KeyStorage {
 	}
 	
 	// getList - Used exclusively for JUnit testing
-	protected ArrayList<Node> getList(){
+	protected ArrayList<Node> getList() throws IOException{
 		ArrayList<Node> nodeList = new ArrayList<Node>();
 		byte[] bytes = disk.readArea(0);
 		LinkedListObject nodeNext = (LinkedListObject)Utility.revert(bytes);
@@ -95,7 +96,7 @@ public class KeyStorage {
 	}
 	
 	// getLast - Returns the tail of the Linked List of nodes
-	private LinkedListObject getLast() {
+	private LinkedListObject getLast() throws IOException {
 		byte[] bytes = disk.readArea(0);
 		LinkedListObject nodeNext = (LinkedListObject)Utility.revert(bytes);
 		while (nodeNext.next != -1 ) {

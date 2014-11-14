@@ -1,33 +1,43 @@
 // -- Patrick Motard -- //
 
 package org.uiowa.cs2820.engine;
+
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.io.IOException;
 
-
 public class DiskSpace {
-	public static void writeArea(String information, int location) throws IOException{
-		String path = "disc.txt";
-		File file = new File(path);
-		if (!file.exists()) {
-				file.createNewFile();
-				System.out.println("new file created");
-			}
-		RandomAccessFile RAfile = new RandomAccessFile(file,"rw");
-		RAfile.seek(location);
-		RAfile.write(information.getBytes());
-		RAfile.close();
+
+	private static File file = new File("DiskSpace.txt");
+
+	public DiskSpace(String fileName) {
 	}
-	
-	public static byte[] readArea(int location, int size) throws IOException{
-		String filepath = "disc.txt";
-		File file = new File(filepath);
-		RandomAccessFile RAfile = new RandomAccessFile(file,"r"); 
-		RAfile.seek(location); 										
-		byte[] data = new byte[size];	
-		RAfile.read(data);
-		RAfile.close();
-		return data;
+
+	public static void writeArea(int areaNum, byte[] b) throws IOException {
+		if (file.exists()) {
+			RandomAccessFile writefile = new RandomAccessFile(file, "rw");
+			writefile.seek(areaNum);
+			// writefile.setLength(1024);
+			writefile.write(b);
+			writefile.close();
+		} else {
+			RandomAccessFile writefile = new RandomAccessFile("DiskSpace.txt",
+					"rw");
+			writefile.seek(areaNum);
+			// writefile.setLength(1024);
+			writefile.write(b);
+			writefile.close();
+		}
 	}
+
+	public static byte[] readArea(int areaNum) throws IOException {
+
+		RandomAccessFile readfile = new RandomAccessFile(file, "r");
+		readfile.seek(areaNum);
+		byte[] bytes = new byte[1024];
+		readfile.read(bytes);
+		readfile.close();
+		return bytes;
+	}
+
 }

@@ -8,7 +8,7 @@ public class ValueStorage {
 	
 	LinearFileDatabase db = null;
 	DiskSpace disk = new DiskSpace("keyvalues");
-	
+	Allocate allocator = new Allocate("keyvalues");
 	
 	public ValueStorage(LinearFileDatabase db){
 		this.db = db;
@@ -20,7 +20,7 @@ public class ValueStorage {
 		
 		// byte[] fileName = DiskSpace.readArea(front);
 		// front = location of first identifier on disk
-		return Identifiers;
+		
 		boolean nextObject = true;
 		ArrayList<LinkedListObject> objectList = new ArrayList<LinkedListObject>();
 		while (nextObject) {
@@ -42,14 +42,14 @@ public class ValueStorage {
 			String id = (String)myLinkedListObject.getObject();
 			Identifiers.add(id);
 		}
-
+		return Identifiers;
 
 	}
 
 	public void store (ArrayList<String> list){
 		
 		// Call allocator with number of LinkedListObjects
-		ArrayList<Integer> memorySpaces = this.db.allocator.allocate(list.size());
+		ArrayList<Integer> memorySpaces = this.allocator.allocate(list.size());
 		ArrayList<LinkedListObject> LinkedListObjectArray = new ArrayList<LinkedListObject>();
 		for (String id:list) {
 			int mySpace = memorySpaces.remove(0);

@@ -33,7 +33,7 @@ public class Utility {
 	  catch (Exception e) { };
 		return O;
 	  }
-	public static LinkedListObject readObject(int areaNum,DiskSpace disk) {
+	public static LinkedListObject readObject(int areaNum,DiskSpace disk) throws IOException {
 		// Call diskspace readArea method with front - disk.readArea(front)
 		// first 2 bytes in byte array tell us how many bytes to read
 		// ex: 0000 0000 0000 0101 = 5 bytes

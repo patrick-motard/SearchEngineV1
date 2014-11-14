@@ -26,8 +26,8 @@ public class KeyStorage {
 		byte[] bytes = disk.readArea(areaNum);
 		Object returnObject = Utility.revert(bytes);
 		if (returnObject != null) {
-			NodeNextPair nodeNext = (NodeNextPair)Utility.revert(bytes);
-			return nodeNext.node;
+			LinkedListObject nodeNext = (LinkedListObject)Utility.revert(bytes);
+			return (Node)nodeNext.getObject();
 		}
 		else { return null; }
 	}
@@ -36,12 +36,12 @@ public class KeyStorage {
 	// 		 to add a Node into storage
 	public void put(int areaNum, Node givenNode) {
 		// Update the tail of the linked list
-		NodeNextPair tail = getLast();
+		LinkedListObject tail = getLast();
 		tail.next = areaNum;
 		byte[] bytes = Utility.convert(tail);
 		disk.writeArea(tail.areaNum, bytes);
 		// Insert the given node at areaNum
-		NodeNextPair nodeNext = new NodeNextPair(givenNode,-1,areaNum);
+		LinkedListObject nodeNext = new LinkedListObject(givenNode,-1,areaNum);
 		bytes = Utility.convert(nodeNext);
 		disk.writeArea(areaNum,bytes);
 	}
@@ -51,7 +51,7 @@ public class KeyStorage {
 	public void add(Node givenNode) {
 		// Use allocate to find a place to put
 		// the given node
-		int areaNum = db.allocator.allocate();
+		int areaNum = db.allocator.allocate(1).get(0);
 		put(areaNum, givenNode);
 		
 	}
@@ -63,19 +63,19 @@ public class KeyStorage {
 		// allocate to free it
 		int index = 0;
 		byte[] bytes = disk.readArea(0);
-		NodeNextPair nodeNext = (NodeNextPair)Utility.revert(bytes);
-		NodeNextPair prevNodeNext = nodeNext;
+		LinkedListObject nodeNext = (LinkedListObject)Utility.revert(bytes);
+		LinkedListObject prevNodeNext = nodeNext;
 		while(nodeNext.next != -1) {
-			if (nodeNext.node.Key == givenNode.Key) {
+			if ( ((Node)(nodeNext.getObject())).Key == givenNode.Key) {
 				prevNodeNext.next = nodeNext.next;
-				db.allocator.free(nodeNext.areaNum);
+				db.allocator.free(new ArrayList<Integer>(nodeNext.areaNum));
 				bytes = Utility.convert(prevNodeNext);
 				disk.writeArea(prevNodeNext.areaNum, bytes);
 				break;
 			}
 			prevNodeNext = nodeNext;
 			bytes = disk.readArea(nodeNext.next);
-			nodeNext = (NodeNextPair)Utility.revert(bytes);
+			nodeNext = (LinkedListObject)Utility.revert(bytes);
 			
 		}
 	}
@@ -84,23 +84,23 @@ public class KeyStorage {
 	protected ArrayList<Node> getList(){
 		ArrayList<Node> nodeList = new ArrayList<Node>();
 		byte[] bytes = disk.readArea(0);
-		NodeNextPair nodeNext = (NodeNextPair)Utility.revert(bytes);
+		LinkedListObject nodeNext = (LinkedListObject)Utility.revert(bytes);
 		while (nodeNext.next != -1) {
-			nodeList.add(nodeNext.node);
+			nodeList.add((Node)nodeNext.getObject());
 			bytes = disk.readArea(nodeNext.next);
-			nodeNext = (NodeNextPair)Utility.revert(bytes);
+			nodeNext = (LinkedListObject)Utility.revert(bytes);
 		}
 		
 		return nodeList;
 	}
 	
 	// getLast - Returns the tail of the Linked List of nodes
-	private NodeNextPair getLast() {
+	private LinkedListObject getLast() {
 		byte[] bytes = disk.readArea(0);
-		NodeNextPair nodeNext = (NodeNextPair)Utility.revert(bytes);
+		LinkedListObject nodeNext = (LinkedListObject)Utility.revert(bytes);
 		while (nodeNext.next != -1 ) {
 			bytes = disk.readArea(nodeNext.next);
-			nodeNext = (NodeNextPair)Utility.revert(bytes);
+			nodeNext = (LinkedListObject)Utility.revert(bytes);
 		}
 		return nodeNext;
 		

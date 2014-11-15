@@ -5,14 +5,16 @@ import java.io.IOException;
 import java.util.*;
 
 public class ValueStorage {
-	
-	LinearFileDatabase db = null;
+	String fileName;
+	LinearFileDatabase db;
 	DiskSpace disk = new DiskSpace("keyvalues");
 	Allocate allocator = new Allocate("keyvalues");
 	
-	public ValueStorage(LinearFileDatabase db){
+	public ValueStorage(LinearFileDatabase db, String fileName){
 		this.db = db;
-		
+		this.fileName = fileName;
+		this.disk = new DiskSpace(fileName);
+		this.allocator = new Allocate(fileName);
 	}
 
 	public ArrayList<String> load(int front) throws IOException{

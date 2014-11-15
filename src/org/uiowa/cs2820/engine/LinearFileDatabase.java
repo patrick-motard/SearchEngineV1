@@ -1,9 +1,9 @@
 package org.uiowa.cs2820.engine;
 
 public class LinearFileDatabase implements Database {
-	
-	protected KeyStorage keyStore = new KeyStorage(this);
-	protected ValueStorage valStore = new ValueStorage(this);
+	private static String fileName = "keyvalue.txt";
+	protected KeyStorage keyStore = new KeyStorage(this,fileName);
+	protected ValueStorage valStore = new ValueStorage(this,fileName);
 	
 	@Override
 	public Node fetch(byte[] key) {

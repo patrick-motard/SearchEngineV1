@@ -9,15 +9,17 @@ import java.io.*;
 public class KeyStorage {
 	
 
-	String fileName = "Keyvalue"; 
-	LinearFileDatabase db = null;
-	DiskSpace disk = new DiskSpace(fileName);
-	Allocate allocator = new Allocate(fileName);
+	String fileName;
+	LinearFileDatabase db;
+	DiskSpace disk;
+	Allocate allocator;
 	// Initializer takes a database to be used with the KeyStorage
 	// method calls
-	public KeyStorage(LinearFileDatabase db) {
+	public KeyStorage(LinearFileDatabase db, String fileName) {
 		this.db = db;
-		
+		this.fileName = fileName;
+		this.disk = new DiskSpace(fileName);
+		this.allocator = new Allocate(fileName);
 	}
 	
 	// get - This is used to retrieve a node at the location specified

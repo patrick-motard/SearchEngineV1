@@ -63,7 +63,7 @@ public class CheckPoint {
 			objout.close();
 
 		} catch (IOException ioe) {
-			System.out.println("Exception while writing file " + ioe);
+			System.out.println("Exception while reading file " + ioe);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}

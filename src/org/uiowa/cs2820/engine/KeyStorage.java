@@ -26,11 +26,10 @@ public class KeyStorage {
 	// 		 by areaNum
 	public Node get(int areaNum) throws IOException {
 		// Find the node at areaNum and return it
-		byte[] bytes = disk.readArea(areaNum);
-		Object returnObject = Utility.revert(bytes);
+		
+		Object returnObject = Utility.readObject(areaNum, disk);
 		if (returnObject != null) {
-			LinkedListObject nodeNext = (LinkedListObject)Utility.revert(bytes);
-			return (Node)nodeNext.getObject();
+			return (Node)returnObject;
 		}
 		else { return null; }
 	}
@@ -46,6 +45,7 @@ public class KeyStorage {
 		// Insert the given node at areaNum
 		LinkedListObject nodeNext = new LinkedListObject(givenNode,-1,areaNum);
 		bytes = Utility.convert(nodeNext);
+		bytes = Utility.appendSize(bytes);
 		disk.writeArea(areaNum,bytes);
 	}
 	
@@ -64,21 +64,19 @@ public class KeyStorage {
 	public void del(Node givenNode) throws IOException {
 		// Find the given node and use
 		// allocate to free it
-		// int index = 0;
-		byte[] bytes = disk.readArea(0);
-		LinkedListObject nodeNext = (LinkedListObject)Utility.revert(bytes);
+		LinkedListObject nodeNext = Utility.readObject(0, disk);
 		LinkedListObject prevNodeNext = nodeNext;
 		while(nodeNext.getNext() != -1) {
 			if ( ((Node)(nodeNext.getObject())).Key == givenNode.Key) {
 				prevNodeNext.setNext(nodeNext.getNext());
 				allocator.free(new ArrayList<Integer>(nodeNext.getSelf()));
-				bytes = Utility.convert(prevNodeNext);
+				byte[] bytes = Utility.convert(prevNodeNext);
+				bytes = Utility.appendSize(bytes);
 				disk.writeArea(prevNodeNext.getSelf(), bytes);
 				break;
 			}
 			prevNodeNext = nodeNext;
-			bytes = disk.readArea(nodeNext.getNext());
-			nodeNext = (LinkedListObject)Utility.revert(bytes);
+			nodeNext = Utility.readObject(nodeNext.getNext(), disk);
 			
 		}
 	}
@@ -86,12 +84,10 @@ public class KeyStorage {
 	// getList - Used exclusively for JUnit testing
 	protected ArrayList<Node> getList() throws IOException{
 		ArrayList<Node> nodeList = new ArrayList<Node>();
-		byte[] bytes = disk.readArea(0);
-		LinkedListObject nodeNext = (LinkedListObject)Utility.revert(bytes);
-		while (nodeNext.getNext() != -1) {
-			nodeList.add((Node)nodeNext.getObject());
-			bytes = disk.readArea(nodeNext.getNext());
-			nodeNext = (LinkedListObject)Utility.revert(bytes);
+		LinkedListObject myLLObject = Utility.readObject(0, disk);
+		while (myLLObject.getNext() != -1) {
+			nodeList.add((Node)myLLObject.getObject());
+			myLLObject = Utility.readObject(myLLObject.getNext(), disk);
 		}
 		
 		return nodeList;
@@ -99,13 +95,11 @@ public class KeyStorage {
 	
 	// getLast - Returns the tail of the Linked List of nodes
 	private LinkedListObject getLast() throws IOException {
-		byte[] bytes = disk.readArea(0);
-		LinkedListObject nodeNext = (LinkedListObject)Utility.revert(bytes);
-		while (nodeNext.getNext() != -1 ) {
-			bytes = disk.readArea(nodeNext.getNext());
-			nodeNext = (LinkedListObject)Utility.revert(bytes);
+		LinkedListObject myLLObject = Utility.readObject(0,disk);
+		while (myLLObject.getNext() != -1 ) {
+			myLLObject = Utility.readObject(myLLObject.getNext(), disk);
 		}
-		return nodeNext;
+		return myLLObject;
 		
 	}
 

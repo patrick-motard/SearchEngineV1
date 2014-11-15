@@ -12,6 +12,10 @@ public class DiskSpace {
 
 	public DiskSpace(String fileName) {
 		file = new File(fileName);
+		if (! file.exists()) { // If the file does not exist
+			FileInitializer.KeyValueStorage(file);
+		}
+		
 	}
 
 	public void writeArea(int areaNum, byte[] b) throws IOException {
